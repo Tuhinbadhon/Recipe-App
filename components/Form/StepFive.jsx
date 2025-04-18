@@ -18,7 +18,7 @@ const StepFive = ({ formData, prevStep, handleSubmit }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Step 5: Preview & Submit</h2>
+      <h2 className="text-xl font-semibold mb-5">Step 5: Preview & Submit</h2>
 
       <div className="border p-4 rounded space-y-2">
         <h3 className="text-lg font-bold">{formData.name}</h3>

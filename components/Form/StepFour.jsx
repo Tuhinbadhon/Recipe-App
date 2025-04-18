@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import toast from "react-hot-toast"; // ✅ Make sure toast is imported
 
 const StepFour = ({ formData, setFormData, nextStep, prevStep }) => {
   const handleImageChange = (e) => {
@@ -16,11 +17,17 @@ const StepFour = ({ formData, setFormData, nextStep, prevStep }) => {
     }
   };
 
-  console.log(formData.image); // Debugging line to check the image data
+  const handleNext = () => {
+    if (!formData.image) {
+      toast.error("Please upload an image before continuing.");
+      return;
+    }
+    nextStep(); // go to StepFive
+  };
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Step 4: Upload Image</h2>
+      <h2 className="text-xl font-semibold mb-5">Step 4: Upload Image</h2>
 
       <input
         type="file"
@@ -45,7 +52,7 @@ const StepFour = ({ formData, setFormData, nextStep, prevStep }) => {
           Back
         </button>
         <button
-          onClick={nextStep}
+          onClick={handleNext}
           className="px-4 py-2 bg-yellow-400 text-white rounded"
         >
           Next

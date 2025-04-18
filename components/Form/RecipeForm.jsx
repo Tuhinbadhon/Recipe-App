@@ -8,6 +8,7 @@ import StepFour from "./StepFour";
 import StepOne from "./StepOne";
 import StepThree from "./StepThree";
 import StepTwo from "./StepTwo";
+import Swal from "sweetalert2";
 
 const RecipeForm = () => {
   const router = useRouter();
@@ -36,18 +37,25 @@ const RecipeForm = () => {
       "submittedRecipes",
       JSON.stringify([...existing, formData])
     );
-    toast.success("Recipe submitted successfully!");
-    setFormData({
-      name: "",
-      category: "",
-      ingredients: [""],
-      instructions: [""],
-      image: null,
-    });
-    setStep(1);
-    router.push("/");
-  };
 
+    Swal.fire({
+      icon: "success",
+      title: "Recipe submitted!",
+      text: "Your recipe has been added successfully.",
+      confirmButtonColor: "#facc15", // optional: sweet green
+    }).then(() => {
+      // Clear form and reset step
+      setFormData({
+        name: "",
+        category: "",
+        ingredients: [""],
+        instructions: [""],
+        image: null,
+      });
+      setStep(1);
+      router.push("/");
+    });
+  };
   const steps = {
     1: (
       <StepOne
@@ -91,7 +99,6 @@ const RecipeForm = () => {
 
   return (
     <div className="max-w-xl mx-auto p-4 bg-gray-100 shadow rounded">
-      <h2 className="text-xl font-bold mb-4">{step}. Submit Your Recipe</h2>
       {steps[step]}
     </div>
   );
