@@ -42,9 +42,9 @@ const RecipeForm = () => {
       icon: "success",
       title: "Recipe submitted!",
       text: "Your recipe has been added successfully.",
-      confirmButtonColor: "#facc15", // optional: sweet green
+      confirmButtonColor: "#facc15", 
     }).then(() => {
-      // Clear form and reset step
+      
       setFormData({
         name: "",
         category: "",

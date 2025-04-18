@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import toast from "react-hot-toast"; // ✅ Make sure toast is imported
+import toast from "react-hot-toast"; 
 
 const StepFour = ({ formData, setFormData, nextStep, prevStep }) => {
   const handleImageChange = (e) => {
@@ -22,7 +22,7 @@ const StepFour = ({ formData, setFormData, nextStep, prevStep }) => {
       toast.error("Please upload an image before continuing.");
       return;
     }
-    nextStep(); // go to StepFive
+    nextStep(); 
   };
 
   return (

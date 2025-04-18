@@ -8,7 +8,7 @@ const SingleRecipe = ({ id, setIsOpen }) => {
   useEffect(() => {
     console.log("Received ID:", id);
   }, [id]);
-  console.log("id", id);
+  // console.log("id", id);
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipe-details", id],
     queryFn: () => HttpKit.getRecipeDetails(id),

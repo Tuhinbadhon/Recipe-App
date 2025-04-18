@@ -17,7 +17,7 @@ const RecipesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 6;
 
-console.log("recipeId", recipeId);
+// console.log("recipeId", recipeId);
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes"],
     queryFn: HttpKit.getTopRecipes,
@@ -73,7 +73,7 @@ console.log("recipeId", recipeId);
   };
 
   const handleDetailsOpen = (id) => {
-    console.log("clicked", id);
+    // console.log("clicked", id);
     setRecipeId(id);
     setOpenDetails(true);
   };

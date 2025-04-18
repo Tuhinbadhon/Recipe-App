@@ -10,25 +10,20 @@ const Cart = () => {
   const [openDetails, setOpenDetails] = useState(false);
   const [recipeId, setRecipeId] = useState("");
 
-
   useEffect(() => {
-    // Get user from localStorage
     const user = JSON.parse(localStorage.getItem("user"));
     const storageKey = user ? `cart_${user.email}` : "cart";
 
-    // Get cart items
     const storedCart = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    // Update state
     setRecipes(storedCart);
   }, []);
 
-  
-const handleDetailsOpen = (id) => {
-  console.log("clicked", id);
-  setRecipeId(id);
-  setOpenDetails(true);
-};
+  const handleDetailsOpen = (id) => {
+    // console.log("clicked", id);
+    setRecipeId(id);
+    setOpenDetails(true);
+  };
   return (
     <div>
       <div className="container mx-auto">
