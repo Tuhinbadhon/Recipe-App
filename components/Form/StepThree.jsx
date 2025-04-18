@@ -17,12 +17,12 @@ const StepThree = ({ formData, handleChange, nextStep, prevStep }) => {
         onChange={handleChangedata}
       />
       <div className="flex justify-between">
-        <button onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded">
+        <button onClick={prevStep} className="px-4 py-2 bg-white rounded">
           Back
         </button>
         <button
           onClick={nextStep}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className="px-4 py-2 bg-yellow-400 text-white rounded"
         >
           Next
         </button>

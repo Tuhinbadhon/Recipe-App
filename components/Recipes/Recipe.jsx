@@ -27,7 +27,7 @@ const Recipe = ({ recipe, handleDetailsOpen }) => {
         animi officiis.
       </p>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
         <AddToWishlist recipe={recipe} />
         <AddToCart recipe={recipe} />
       </div>

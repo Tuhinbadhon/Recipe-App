@@ -13,43 +13,85 @@ const RecipesList = () => {
   const [openDetails, setOpenDetails] = useState(false);
   const [recipeId, setRecipeId] = useState("");
   const [recipes, setRecipes] = useState([]);
-  const [searchInput, setSearchInput] = useState("abc");
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 6;
 
+console.log("recipeId", recipeId);
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes"],
     queryFn: HttpKit.getTopRecipes,
   });
+
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-    });
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
   useEffect(() => {
     if (data) {
       setRecipes(data);
+      setCurrentPage(1); 
     }
   }, [data]);
 
-  const handleSearch = () => {
-    setSearchQuery(searchInput);
+  const handleSearch = async () => {
+    const query = searchInput.trim();
+
+    if (!query) {
+      const top = await HttpKit.getTopRecipes();
+      setRecipes(top);
+      setCurrentPage(1);
+      return;
+    }
+
+    try {
+      let result = await HttpKit.searchRecipesByName(query);
+      if (result.length) {
+        setRecipes(result);
+        setCurrentPage(1);
+        return;
+      }
+
+      result = await HttpKit.searchRecipesByIngredient(query);
+      if (result.length) {
+        setRecipes(result);
+        setCurrentPage(1);
+        return;
+      }
+
+      result = await HttpKit.filterByCategory(query);
+      if (result.length) {
+        setRecipes(result);
+        setCurrentPage(1);
+        return;
+      }
+
+      setRecipes([]);
+    } catch (err) {
+      console.error("Search error:", err);
+    }
   };
 
   const handleDetailsOpen = (id) => {
-    setOpenDetails(true);
+    console.log("clicked", id);
     setRecipeId(id);
+    setOpenDetails(true);
   };
 
-  console.log("recipes", recipes);
+  const indexOfLast = currentPage * recipesPerPage;
+  const indexOfFirst = indexOfLast - recipesPerPage;
+  const currentRecipes = recipes.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(recipes.length / recipesPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (isLoading)
     return (
-      <div className="flex items-center justify-center mt-10 ">
+      <div className="flex items-center justify-center mt-10">
         <HashLoader color="#e6762f" size={60} />
       </div>
     );
+
   if (error) return <div>Error loading recipes: {error.message}</div>;
 
   return (
@@ -61,58 +103,77 @@ const RecipesList = () => {
         >
           Top Recipes
         </h1>
-        {/* Search form */}
+
+        {/* Search Input */}
         <div data-aos="fade-up">
-          <form action="" className="w-full mt-12">
-            <div className="relative flex p-1 mx-5 lg:mx-14 rounded-full bg-white   border border-yellow-200 shadow-md md:p-2">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearch();
+            }}
+            className="w-full mt-12"
+          >
+            <div className="relative flex p-1 mx-5 lg:mx-14 rounded-full bg-white border border-yellow-200 shadow-md md:p-2">
               <input
-                placeholder="Your favorite food"
-                className="w-full p-4 rounded-full outline-none bg-transparent "
+                placeholder="Your favorite recipe..."
+                className="w-full p-4 rounded-full outline-none bg-transparent"
                 type="text"
-                onChange={(e) =>
-                  setSearchInput((prev) => ({
-                    ...prev,
-                    value: e.target.value,
-                  }))
-                }
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
               <button
-                onClick={() => handleSearch()}
-                type="button"
-                title="Start buying"
-                className="ml-auto py-3 px-6 rounded-full text-center transition bg-gradient-to-b from-yellow-200 to-yellow-300 hover:to-red-300 active:from-yellow-400 focus:from-red-400 md:px-12"
+                type="submit"
+                title="Search"
+                className="ml-auto py-3 px-6 rounded-full bg-gradient-to-b from-yellow-200 to-yellow-300 hover:to-red-300 text-yellow-900 font-semibold md:px-12"
               >
-                <span className="hidden text-yellow-900 font-semibold md:block">
-                  Search
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 mx-auto text-yellow-900 md:hidden"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
+                Search
               </button>
             </div>
           </form>
         </div>
+
+        {/* Recipe Grid */}
         <div data-aos="fade-up" className="relative py-16">
-          <div className="container relative m-auto px-6 text-gray-500 md:px-12">
+          <div className="container m-auto px-6 text-gray-500 md:px-12">
             <div className="grid gap-6 md:mx-auto md:w-8/12 lg:w-full lg:grid-cols-3">
-              {recipes?.map((recipe) => (
-                <RecipeCard
-                  key={recipe?.id}
-                  recipe={recipe}
-                  handleDetailsOpen={handleDetailsOpen}
-                />
-              ))}
+              {currentRecipes.length > 0 ? (
+                currentRecipes.map((recipe) => (
+                  <RecipeCard
+                    key={recipe?.idMeal}
+                    recipe={recipe}
+                    handleDetailsOpen={handleDetailsOpen}
+                  />
+                ))
+              ) : (
+                <p className="text-center text-gray-500 col-span-3">
+                  No recipes found. Try another keyword.
+                </p>
+              )}
             </div>
+
+            {/* Pagination */}
+            {recipes.length > recipesPerPage && (
+              <div className="flex justify-center mt-10 gap-2 flex-wrap">
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => paginate(i + 1)}
+                    className={`px-4 py-2 rounded-md border ${
+                      currentPage === i + 1
+                        ? "bg-yellow-400 text-white"
+                        : "bg-white text-yellow-900 border-yellow-300"
+                    } hover:bg-yellow-200`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Modal*/}
+      {/* Modal */}
       <Modal isOpen={openDetails} setIsOpen={setOpenDetails}>
         <SingleRecipe id={recipeId} setIsOpen={setOpenDetails} />
       </Modal>

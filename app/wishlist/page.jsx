@@ -26,7 +26,9 @@ const Wishlist = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <h1 className="text-4xl text-center mt-5 md:mt-10">Your Wishlist</h1>
+        <h1 className="text-4xl text-center mt-5 md:mt-10 text-[#713f12]">
+          Your Wishlist
+        </h1>
 
         <div data-aos="fade-up" className="relative md:py-16 py-5">
           <div className="container relative m-auto px-6 text-gray-500 md:px-12">

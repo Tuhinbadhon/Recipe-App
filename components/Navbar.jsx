@@ -163,7 +163,7 @@ const Navbar = () => {
                       closeMobileMenu();
                       handleSignup();
                     }}
-                    className="w-full py-3 px-6 text-center rounded-full transition active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
+                    className="w-full py-3 px-6 text-center rounded-full transition hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
                   >
                     <span className="block text-yellow-800 font-semibold text-sm">
                       Sign up

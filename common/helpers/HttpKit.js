@@ -39,7 +39,7 @@ const HttpKit = {
 
   getRecipeDetails: async (id) => {
     try {
-      const response = axios
+      const response = await axios
         .get(`${BASE_URL}/lookup.php`, {
           params: { i: id },
         })

@@ -29,7 +29,7 @@ const AddToWishlist = ({ recipe }) => {
   return (
     <div onClick={addToWishlist}>
       <Button>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-1 md:gap-2">
           <Heart size={18} />
           Add to wishlist
         </span>

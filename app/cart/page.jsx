@@ -1,10 +1,15 @@
 "use client";
 
+import Modal from "@/components/Modal";
 import RecipeCard from "@/components/Recipes/RecipeCard";
+import SingleRecipe from "@/components/Recipes/SingleRecipe";
 import { useEffect, useState } from "react";
 
 const Cart = () => {
   const [recipes, setRecipes] = useState([]);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [recipeId, setRecipeId] = useState("");
+
 
   useEffect(() => {
     // Get user from localStorage
@@ -18,15 +23,18 @@ const Cart = () => {
     setRecipes(storedCart);
   }, []);
 
-  const handleDetailsOpen = (idMeal) => {
-    console.log("Open details for:", idMeal);
-    // Add your modal or navigation logic here
-  };
-
+  
+const handleDetailsOpen = (id) => {
+  console.log("clicked", id);
+  setRecipeId(id);
+  setOpenDetails(true);
+};
   return (
     <div>
       <div className="container mx-auto">
-        <h1 className="text-4xl text-center mt-5 md:mt-10">Your Cart</h1>
+        <h1 className="text-4xl text-center mt-5 md:mt-10 text-[#713f12]">
+          Your Cart
+        </h1>
 
         <div data-aos="fade-up" className="relative md:py-16 py-5">
           <div className="container relative m-auto px-6 text-gray-500 md:px-12">
@@ -48,6 +56,10 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      {/* Modal */}
+      <Modal isOpen={openDetails} setIsOpen={setOpenDetails}>
+        <SingleRecipe id={recipeId} setIsOpen={setOpenDetails} />
+      </Modal>
     </div>
   );
 };

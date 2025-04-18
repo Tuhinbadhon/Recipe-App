@@ -27,16 +27,16 @@ const StepTwo = ({ formData, handleChange, nextStep, prevStep }) => {
           </button>
         </div>
       ))}
-      <button onClick={addIngredient} className="mb-4 text-blue-500">
+      <button onClick={addIngredient} className="mb-4 text-blue-500 ">
         + Add Ingredient
       </button>
       <div className="flex justify-between">
-        <button onClick={prevStep} className="px-4 py-2 border rounded">
+        <button onClick={prevStep} className="px-4 py-2 bg-white border rounded">
           Back
         </button>
         <button
           onClick={nextStep}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className="px-4 py-2 bg-yellow-400 text-white rounded"
         >
           Next
         </button>

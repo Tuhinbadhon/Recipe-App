@@ -90,7 +90,7 @@ const RecipeForm = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 bg-white shadow rounded">
+    <div className="max-w-xl mx-auto p-4 bg-gray-100 shadow rounded">
       <h2 className="text-xl font-bold mb-4">{step}. Submit Your Recipe</h2>
       {steps[step]}
     </div>

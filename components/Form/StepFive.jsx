@@ -38,12 +38,12 @@ const StepFive = ({ formData, prevStep, handleSubmit }) => {
       </div>
 
       <div className="flex justify-between">
-        <button onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded">
+        <button onClick={prevStep} className="px-4 py-2 bg-white rounded">
           Back
         </button>
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 bg-green-500 text-white rounded"
+          className="px-4 py-2 bg-yellow-200 hover:bg-yellow-400 text-yellow-900 rounded"
         >
           Submit
         </button>
