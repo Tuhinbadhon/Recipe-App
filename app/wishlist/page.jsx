@@ -1,15 +1,15 @@
 "use client";
 
-import RecipeCard from "@/components/Recipes/RecipeCard";
+import WishlistRecipeCard from "@/components/Recipes/WishlistRecipeCard";
 import { useEffect, useState } from "react";
 
-const Cart = () => {
+const Wishlist = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     // Get user from localStorage
     const user = JSON.parse(localStorage.getItem("user"));
-    const storageKey = user ? `cart_${user.email}` : "cart";
+    const storageKey = user ? `wishlist_${user.email}` : "wishlist";
 
     // Get cart items
     const storedCart = JSON.parse(localStorage.getItem(storageKey)) || [];
@@ -26,14 +26,14 @@ const Cart = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <h1 className="text-4xl text-center mt-5 md:mt-10">Your Cart</h1>
+        <h1 className="text-4xl text-center mt-5 md:mt-10">Your Wishlist</h1>
 
         <div data-aos="fade-up" className="relative md:py-16 py-5">
           <div className="container relative m-auto px-6 text-gray-500 md:px-12">
             {recipes.length > 0 ? (
               <div className="grid gap-6 md:mx-auto md:w-8/12 lg:w-full lg:grid-cols-3">
                 {recipes.map((recipe) => (
-                  <RecipeCard
+                  <WishlistRecipeCard
                     key={recipe?.idMeal}
                     recipe={recipe}
                     handleDetailsOpen={handleDetailsOpen}
@@ -52,4 +52,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Wishlist;

@@ -1,9 +1,12 @@
 "use client";
 import HttpKit from "@/common/helpers/HttpKit";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
-import RecipeCard from "./RecipeCard";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect, useState } from "react";
+import { HashLoader } from "react-spinners";
 import Modal from "../Modal";
+import RecipeCard from "./RecipeCard";
 import SingleRecipe from "./SingleRecipe";
 
 const RecipesList = () => {
@@ -17,6 +20,12 @@ const RecipesList = () => {
     queryKey: ["recipes"],
     queryFn: HttpKit.getTopRecipes,
   });
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -33,17 +42,29 @@ const RecipesList = () => {
     setRecipeId(id);
   };
 
-  if (isLoading) return <div>Loading recipes...</div>;
+  console.log("recipes", recipes);
+
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center mt-10 ">
+        <HashLoader color="#e6762f" size={60} />
+      </div>
+    );
   if (error) return <div>Error loading recipes: {error.message}</div>;
 
   return (
     <div className="bg-gray-50 py-10">
       <div className="container mx-auto">
-        <h1 className="text-2xl font-bold">Top Recipes</h1>
+        <h1
+          data-aos="fade-up"
+          className="text-2xl md:text-4xl font-bold text-center text-[#713f12]"
+        >
+          Top Recipes
+        </h1>
         {/* Search form */}
-        <div>
+        <div data-aos="fade-up">
           <form action="" className="w-full mt-12">
-            <div className="relative flex p-1 rounded-full bg-white   border border-yellow-200 shadow-md md:p-2">
+            <div className="relative flex p-1 mx-5 lg:mx-14 rounded-full bg-white   border border-yellow-200 shadow-md md:p-2">
               <input
                 placeholder="Your favorite food"
                 className="w-full p-4 rounded-full outline-none bg-transparent "
@@ -76,7 +97,7 @@ const RecipesList = () => {
             </div>
           </form>
         </div>
-        <div className="relative py-16">
+        <div data-aos="fade-up" className="relative py-16">
           <div className="container relative m-auto px-6 text-gray-500 md:px-12">
             <div className="grid gap-6 md:mx-auto md:w-8/12 lg:w-full lg:grid-cols-3">
               {recipes?.map((recipe) => (
