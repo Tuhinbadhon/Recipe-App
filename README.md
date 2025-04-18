@@ -18,7 +18,7 @@ Developed a multi-step form:
 - Step 4: Image upload  
 Includes form validation and state persistence between steps.
 
-### 5. Wishlist/Favorites  
+### 5. Wishlist
 Users can save recipes to a wishlist, even without logging in. If logged in, it syncs to their account.
 
 ### 6. Search Functionality  
@@ -29,6 +29,19 @@ Users can search recipes by:
 
 ### 7. Pagination  
 Implemented custom pagination logic from scratch to handle large datasets efficiently.
+
+---
+🧠 State Management
+Used Redux Toolkit with react-redux to manage global state for:
+
+Cart
+
+Wishlist
+
+Authentication
+
+Recipe data
+This helps maintain predictable state and improves app scalability.
 
 ---
 
