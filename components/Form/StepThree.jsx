@@ -7,8 +7,11 @@ const StepThree = ({ formData, handleChange, nextStep, prevStep }) => {
     handleChange("instructions", e.target.value);
   };
   const handleNext = () => {
-    if (!formData.instructions.trim()) {
-      toast.error("Please fill out Instructions fields.");
+    if (
+      typeof formData.instructions !== "string" ||
+      !formData.instructions.trim()
+    ) {
+      toast.error("Please fill out the Instructions field.");
       return;
     }
 
